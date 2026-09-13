@@ -1,0 +1,11 @@
+{
+  "appId": "com.banglacalendar.app",
+  "appName": "বাংলা ক্যালেন্ডার",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

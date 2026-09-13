@@ -1,0 +1,6 @@
+{
+  "name": "বাংলা ক্যালেন্ডার (Bangla Calendar)",
+  "description": "বাংলাদেশ ও পশ্চিমবঙ্গের নির্ভরযোগ্য আধুনিক বাংলা ক্যালেন্ডার, তারিখ রূপান্তরকারী ও পঞ্জিকা",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-bengali: 'Hind Siliguri', 'Tiro Bangla', system-ui, -apple-system, sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-bengali);
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Hide scrollbar for tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ==========================================================================
+   Comprehensive Print Engine for Bengali Calendar & Panjika
+   Fixes: Truncation, sticky header overlaps, missing grid buttons, page sizing
+   ========================================================================== */
+@page {
+  size: A4 portrait;
+  margin: 10mm 12mm 12mm 12mm;
+}
+
+@media print {
+  /* 1. Global Reset & Print Color Fidelity */
+  *, *::before, *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Prevent 1-page flex/overflow clipping on root containers */
+  #root,
+  div[class*="min-h-screen"],
+  main {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #ffffff !important;
+  }
+
+  /* 2. Remove All Sticky / Fixed Positions */
+  header,
+  nav,
+  aside,
+  footer,
+  [role="navigation"],
+  .no-print,
+  #toast-container,
+  .backdrop-blur-xs,
+  .backdrop-blur-sm {
+    display: none !important;
+  }
+
+  /* Ensure no element remains sticky or fixed to prevent edge overlapping */
+  * {
+    position: static !important;
+  }
+
+  /* 3. Ensure Day Cells & Buttons Render Properly */
+  button {
+    background-color: transparent;
+  }
+
+  /* Calendar day cell print styles */
+  .calendar-day-cell {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    border: 1px solid #d1d5db !important;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 4. Page Break Controls */
+  .page-break-before {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .page-break-after {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .avoid-break,
+  .daily-card-section,
+  .month-grid-section,
+  .panjika-section,
+  article,
+  section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 5. Natural Full Width Layout on Default Print */
+  .daily-card-section,
+  .month-grid-section,
+  .panjika-section {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* On home page default print: let daily card print on Page 1, month grid on Page 2 cleanly */
+  .home-print-layout .month-grid-section {
+    page-break-before: always !important;
+    break-before: page !important;
+    margin-top: 10mm !important;
+  }
+
+  /* 6. Mode A: Month Grid Only Print Mode */
+  body.print-month-mode #root > div > *:not(main),
+  body.print-month-mode main > div > *:not(.month-grid-section),
+  body.print-month-mode .daily-card-section {
+    display: none !important;
+  }
+
+  body.print-month-mode .month-grid-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+  }
+
+  /* 7. Mode B: Daily Card Only Print Mode */
+  body.print-daily-mode #root > div > *:not(main),
+  body.print-daily-mode main > div > *:not(.daily-card-section),
+  body.print-daily-mode .month-grid-section {
+    display: none !important;
+  }
+
+  body.print-daily-mode .daily-card-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 8. Mode C: Modal Date Details Print Mode */
+  body.print-modal-mode #root > div > *:not(.date-details-modal-wrapper),
+  body.print-modal-mode main {
+    display: none !important;
+  }
+
+  body.print-modal-mode .date-details-modal-wrapper {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  body.print-modal-mode .date-details-modal-wrapper > div {
+    max-height: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+  }
+
+  /* 9. Mode D: Panjika Only Print Mode */
+  body.print-panjika-mode #root > div > *:not(main),
+  body.print-panjika-mode main > div > *:not(.panjika-section) {
+    display: none !important;
+  }
+
+  body.print-panjika-mode .panjika-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
