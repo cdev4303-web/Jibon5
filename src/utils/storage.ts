@@ -26,7 +26,12 @@ export const DEFAULT_SETTINGS: UserSettings = {
     sunrise: true,
     sunset: true,
     moonPhase: true,
-    todayEvent: true
+    todayEvent: true,
+    showSunriseSunset: true,
+    showMoonPhase: true,
+    showPanjika: true,
+    showHijriDate: true,
+    showSeason: true
   }
 };
 
@@ -39,12 +44,18 @@ export class StorageService {
       const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
       if (data) {
         const parsed = JSON.parse(data);
+        const hw = parsed.homeWidgets || {};
         return {
           ...DEFAULT_SETTINGS,
           ...parsed,
           homeWidgets: {
             ...DEFAULT_SETTINGS.homeWidgets,
-            ...(parsed.homeWidgets || {})
+            ...hw,
+            showSunriseSunset: hw.showSunriseSunset ?? (hw.sunrise !== false && hw.sunset !== false),
+            showMoonPhase: hw.showMoonPhase ?? (hw.moonPhase !== false),
+            showPanjika: hw.showPanjika ?? true,
+            showHijriDate: hw.showHijriDate ?? (hw.hijriDate !== false),
+            showSeason: hw.showSeason ?? true
           }
         };
       }

@@ -36,6 +36,12 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
   onShare,
   onSaveImage
 }) => {
+  const showSunriseSunset = homeWidgets?.showSunriseSunset ?? (homeWidgets?.sunrise !== false);
+  const showMoonPhase = homeWidgets?.showMoonPhase ?? (homeWidgets?.moonPhase !== false);
+  const showPanjika = homeWidgets?.showPanjika ?? true;
+  const showHijriDate = homeWidgets?.showHijriDate ?? (homeWidgets?.hijriDate !== false);
+  const showSeason = homeWidgets?.showSeason ?? true;
+
   const gDay = useBengaliDigits ? toBengaliNumeral(currentDate.getDate()) : currentDate.getDate();
   const gMonthBn = GREGORIAN_MONTHS_BN[currentDate.getMonth()];
   const gYear = useBengaliDigits ? toBengaliNumeral(currentDate.getFullYear()) : currentDate.getFullYear();
@@ -101,7 +107,7 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
                 ? `${bdDate.monthNameBn} ${bdDate.yearBn}`
                 : `${wbDate.monthNameBn} ${wbDate.yearBn}`}
             </h3>
-            {homeWidgets.showSeason && (
+            {showSeason && (
               <span className="mt-1 text-xs font-semibold text-[#4A5D4C] dark:text-stone-400">
                 🌿 ঋতু: {region === 'bangladesh' ? bdDate.seasonBn : wbDate.seasonBn}কাল
               </span>
@@ -121,7 +127,7 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
               <div className="text-base font-bold text-[#1A2F1C] dark:text-stone-100 mt-0.5">
                 {bdDate.monthNameBn} {bdDate.yearBn}
               </div>
-              {homeWidgets.showSeason && (
+              {showSeason && (
                 <span className="text-[11px] text-[#4A5D4C] dark:text-stone-400 mt-1">
                   ঋতু: {bdDate.seasonBn}কাল
                 </span>
@@ -151,7 +157,7 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
           <p className="text-base sm:text-lg font-bold text-[#4A5D4C] dark:text-stone-200">
             {gregorianStrBn}
           </p>
-          {homeWidgets.showHijriDate && (
+          {showHijriDate && (
             <p className="text-xs sm:text-sm font-medium text-[#8A967E] dark:text-stone-400">
               🕋 {formatHijriStr}
             </p>
@@ -159,7 +165,7 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
         </div>
 
         {/* Panjika Highlights if available */}
-        {homeWidgets.showPanjika && sunMoon.panjika?.isAvailable && (
+        {showPanjika && sunMoon.panjika?.isAvailable && (
           <div className="mt-4 pt-3 border-t border-[#E0E4D9]/60 dark:border-stone-800/60 w-full flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-[#056608] dark:text-emerald-400">
             <span className="px-2.5 py-0.5 rounded-lg bg-[#EBF0E4] dark:bg-stone-800" title={sunMoon.panjika.tithiEndTime}>
               তিথি: {sunMoon.panjika.tithi}
@@ -221,43 +227,43 @@ export const BigDateCard: React.FC<BigDateCardProps> = ({
         </div>
       </div>
 
-      {/* Solar/Lunar Stats in Editorial Green Palette */}
-      {(homeWidgets.showSunriseSunset || homeWidgets.showMoonPhase) && (
+      {/* Solar/Lunar Stats Cards (Sunrise, Sunset, Moon Phase) */}
+      {(showSunriseSunset || showMoonPhase) && (
         <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
           {/* Sunrise */}
-          {homeWidgets.showSunriseSunset && (
-            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 rounded-2xl flex flex-col items-center border border-[#D1D8C5] dark:border-stone-800 text-center">
-              <span className="text-base sm:text-lg mb-0.5">🌅</span>
-              <span className="text-[10px] uppercase font-bold text-[#4A5D4C] dark:text-stone-400 tracking-wider">
+          {showSunriseSunset && (
+            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 sm:p-3.5 rounded-2xl flex flex-col items-center justify-center border border-[#D1D8C5] dark:border-stone-800 text-center shadow-xs">
+              <span className="text-xl sm:text-2xl mb-1 select-none">🌅</span>
+              <span className="text-[11px] font-semibold text-[#4A5D4C] dark:text-stone-400">
                 সূর্যোদয়
               </span>
-              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-200 mt-0.5">
+              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-100 mt-0.5">
                 {sunMoon.sunrise}
               </span>
             </div>
           )}
 
           {/* Sunset */}
-          {homeWidgets.showSunriseSunset && (
-            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 rounded-2xl flex flex-col items-center border border-[#D1D8C5] dark:border-stone-800 text-center">
-              <span className="text-base sm:text-lg mb-0.5">🌇</span>
-              <span className="text-[10px] uppercase font-bold text-[#4A5D4C] dark:text-stone-400 tracking-wider">
+          {showSunriseSunset && (
+            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 sm:p-3.5 rounded-2xl flex flex-col items-center justify-center border border-[#D1D8C5] dark:border-stone-800 text-center shadow-xs">
+              <span className="text-xl sm:text-2xl mb-1 select-none">🌇</span>
+              <span className="text-[11px] font-semibold text-[#4A5D4C] dark:text-stone-400">
                 সূর্যাস্ত
               </span>
-              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-200 mt-0.5">
+              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-100 mt-0.5">
                 {sunMoon.sunset}
               </span>
             </div>
           )}
 
-          {/* Moon */}
-          {homeWidgets.showMoonPhase && (
-            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 rounded-2xl flex flex-col items-center border border-[#D1D8C5] dark:border-stone-800 text-center">
-              <span className="text-base sm:text-lg mb-0.5">{sunMoon.moonPhaseIcon || '🌙'}</span>
-              <span className="text-[10px] uppercase font-bold text-[#4A5D4C] dark:text-stone-400 tracking-wider">
+          {/* Moon Phase */}
+          {showMoonPhase && (
+            <div className="bg-[#EBF0E4] dark:bg-stone-900 p-3 sm:p-3.5 rounded-2xl flex flex-col items-center justify-center border border-[#D1D8C5] dark:border-stone-800 text-center shadow-xs">
+              <span className="text-xl sm:text-2xl mb-1 select-none">{sunMoon.moonPhaseIcon || '🌙'}</span>
+              <span className="text-[11px] font-semibold text-[#4A5D4C] dark:text-stone-400">
                 চাঁদের কলা ({sunMoon.moonIlluminationPctBn || '০%'})
               </span>
-              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-200 mt-0.5 truncate max-w-[80px] sm:max-w-none">
+              <span className="font-bold text-xs sm:text-sm text-[#1A2F1C] dark:text-stone-100 mt-0.5 truncate max-w-[95px] sm:max-w-none">
                 {sunMoon.moonPhaseBn.split(' ')[0]}
               </span>
             </div>
